@@ -17,7 +17,7 @@ This source file is part of the
 -----------------------------------------------------------------------------
 */
 
-#include <As1.h>
+#include "As1.h"
 
 //-------------------------------------------------------------------------------------
 As1::As1(void)
@@ -102,7 +102,7 @@ void As1::createScene(void)
 	Ogre::Entity* groundEntity = mSceneMgr->createEntity("ground");
 	Ogre::SceneNode* groundNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("GroundNode");
 	groundNode->attachObject(groundEntity);
-	groundNode->setPosition(0, -100, 0);
+	groundNode->setPosition(0, surfaceHeight, 0);
 	groundEntity->setCastShadows(false);
 	groundEntity->setMaterialName("Ocean2_Cg");
 
@@ -112,12 +112,17 @@ void As1::createScene(void)
 
 bool As1::frameRenderingQueued(const Ogre::FrameEvent& fe)
 {
-	bool ret = BaseApplication::frameRenderingQueued(fe);
+	mKeyboard->capture();
+//	mMouse->capture();
 
-	if(!processUnbufferedInput(fe))
-		return false;
+//	bool ret = BaseApplication::frameRenderingQueued(fe);
 
-	return ret;
+//	if(!processUnbufferedInput(fe))
+//		return false;
+
+//	return ret;
+
+	return(processUnbufferedInput(fe));
 }
 
 bool As1::processUnbufferedInput(const Ogre::FrameEvent& fe)
@@ -185,10 +190,10 @@ bool As1::processUnbufferedInput(const Ogre::FrameEvent& fe)
 			velocity.z += move;
 		// move cube down
 		if(mKeyboard->isKeyDown(OIS::KC_U) || mKeyboard->isKeyDown(OIS::KC_PGDOWN))
-			velocity.y += move;
+			velocity.y -= move;
 		// move cube up
 		if(mKeyboard->isKeyDown(OIS::KC_O) || mKeyboard->isKeyDown(OIS::KC_PGUP))
-			velocity.y -= move;
+			velocity.y += move;
 		// move cube left
 		if(mKeyboard->isKeyDown(OIS::KC_J) || mKeyboard->isKeyDown(OIS::KC_NUMPAD4))
 			velocity.x -= move;
