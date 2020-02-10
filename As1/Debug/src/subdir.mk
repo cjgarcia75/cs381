@@ -4,23 +4,23 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../src/BaseApplication.cpp \
-../src/TutorialApplication.cpp 
+../src/As1.cpp \
+../src/BaseApplication.cpp 
 
 OBJS += \
-./src/BaseApplication.o \
-./src/TutorialApplication.o 
+./src/As1.o \
+./src/BaseApplication.o 
 
 CPP_DEPS += \
-./src/BaseApplication.d \
-./src/TutorialApplication.d 
+./src/As1.d \
+./src/BaseApplication.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
 src/%.o: ../src/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -I"/home/christian/Desktop/cs381/eclipse-wokspace/OgreBasicTutorialIntro/inc" -I/usr/local/include/OGRE -I/usr/local/include/OGRE/Overlay -I/usr/include/ois -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
+	g++ -I"/home/christian/Desktop/cs381/eclipse-wokspace/As1/inc" -I/usr/local/include/OGRE -I/usr/local/include/OGRE/Overlay -I/usr/include/ois -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

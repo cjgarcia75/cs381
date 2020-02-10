@@ -1,5 +1,5 @@
 src/BaseApplication.o: ../src/BaseApplication.cpp \
- /home/christian/Desktop/cs381/eclipse-wokspace/OgreBasicTutorialIntro/inc/BaseApplication.h \
+ /home/christian/Desktop/cs381/eclipse-wokspace/As1/inc/BaseApplication.h \
  /usr/local/include/OGRE/OgreCamera.h \
  /usr/local/include/OGRE/OgrePrerequisites.h \
  /usr/local/include/OGRE/OgrePlatform.h \
@@ -233,7 +233,7 @@ src/BaseApplication.o: ../src/BaseApplication.cpp \
  /usr/include/ois/OISForceFeedback.h \
  /usr/local/include/OGRE/SdkCameraMan.h
 
-/home/christian/Desktop/cs381/eclipse-wokspace/OgreBasicTutorialIntro/inc/BaseApplication.h:
+/home/christian/Desktop/cs381/eclipse-wokspace/As1/inc/BaseApplication.h:
 
 /usr/local/include/OGRE/OgreCamera.h:
 
