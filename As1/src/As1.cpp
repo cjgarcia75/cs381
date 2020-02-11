@@ -113,14 +113,6 @@ void As1::createScene(void)
 bool As1::frameRenderingQueued(const Ogre::FrameEvent& fe)
 {
 	mKeyboard->capture();
-//	mMouse->capture();
-
-//	bool ret = BaseApplication::frameRenderingQueued(fe);
-
-//	if(!processUnbufferedInput(fe))
-//		return false;
-
-//	return ret;
 
 	return(processUnbufferedInput(fe));
 }
@@ -135,7 +127,7 @@ bool As1::processUnbufferedInput(const Ogre::FrameEvent& fe)
 	static Ogre::Real shipRot = 0.008;
 	static Ogre::Real move = 2;
 	static Ogre::Real shipMove = 50;
-	static Ogre::Real moveCam = 250;
+	static Ogre::Real moveCam = 300;
 	bool camMoving = true;
 
 	srand(time(NULL));

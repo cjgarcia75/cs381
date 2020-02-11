@@ -1,5 +1,6 @@
-src/As1.o: ../src/As1.cpp /home/cjgarcia/Desktop/workspace/As1/inc/As1.h \
- /home/cjgarcia/Desktop/workspace/As1/inc/BaseApplication.h \
+src/As1.o: ../src/As1.cpp \
+ /home/christian/Desktop/cs381/eclipse-wokspace/As1/inc/As1.h \
+ /home/christian/Desktop/cs381/eclipse-wokspace/As1/inc/BaseApplication.h \
  /usr/local/include/OGRE/OgreCamera.h \
  /usr/local/include/OGRE/OgrePrerequisites.h \
  /usr/local/include/OGRE/OgrePlatform.h \
@@ -233,9 +234,9 @@ src/As1.o: ../src/As1.cpp /home/cjgarcia/Desktop/workspace/As1/inc/As1.h \
  /usr/include/ois/OISForceFeedback.h \
  /usr/local/include/OGRE/SdkCameraMan.h
 
-/home/cjgarcia/Desktop/workspace/As1/inc/As1.h:
+/home/christian/Desktop/cs381/eclipse-wokspace/As1/inc/As1.h:
 
-/home/cjgarcia/Desktop/workspace/As1/inc/BaseApplication.h:
+/home/christian/Desktop/cs381/eclipse-wokspace/As1/inc/BaseApplication.h:
 
 /usr/local/include/OGRE/OgreCamera.h:
 
