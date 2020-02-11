@@ -124,7 +124,7 @@ bool As1::processUnbufferedInput(const Ogre::FrameEvent& fe)
 	static bool cDownLastFrame = false;
 	static bool vDownLastFrame = false;
 	static Ogre::Real rotate = 0.03;
-	static Ogre::Real shipRot = 0.008;
+	static Ogre::Real shipRot = 0.05;
 	static Ogre::Real move = 2;
 	static Ogre::Real shipMove = 50;
 	static Ogre::Real moveCam = 300;
@@ -201,10 +201,10 @@ bool As1::processUnbufferedInput(const Ogre::FrameEvent& fe)
 		// move ship back
 		if(mKeyboard->isKeyDown(OIS::KC_K) || mKeyboard->isKeyDown(OIS::KC_NUMPAD2))
 			dirVec.x -= shipMove;
-		// move ship left
+		// rotate ship left
 		if(mKeyboard->isKeyDown(OIS::KC_J) || mKeyboard->isKeyDown(OIS::KC_NUMPAD4))
 			mSceneMgr->getSceneNode("shipNode")->yaw(Ogre::Degree(5 * shipRot));
-		// move ship right
+		// rotate ship right
 		if(mKeyboard->isKeyDown(OIS::KC_L) || mKeyboard->isKeyDown(OIS::KC_NUMPAD6))
 			mSceneMgr->getSceneNode("shipNode")->yaw(Ogre::Degree(-5 * shipRot));
 
@@ -232,7 +232,7 @@ bool As1::processUnbufferedInput(const Ogre::FrameEvent& fe)
 	if(mKeyboard->isKeyDown(OIS::KC_A))
 		dirVec.x -= moveCam;
 
-	// change camera
+	// change camera to cube
 	if(cDown && !cDownLastFrame)
 	{
 		if(!tracking)
