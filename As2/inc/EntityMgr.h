@@ -9,7 +9,8 @@ Filename:    EntityMgr.h
 #ifndef ENTITYMGR_H_
 #define ENTITYMGR_H_
 
-#include "Entity381.h"
+#include "Sphere.h"
+#include "Cube.h"
 #include <vector>
 
 class EntityMgr{
@@ -18,7 +19,7 @@ public:
 	virtual ~EntityMgr(void);
 
 	void Tick(float dt);
-	Entity381* CreateEntity(std::string type, Ogre::Vector3 pos);
+	void CreateEntity(Ogre::SceneManager* mSceneMgr, std::string name, Ogre::Vector3 pos);
 
 private:
 	std::vector<Entity381> entities;

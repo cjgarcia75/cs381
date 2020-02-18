@@ -23,7 +23,15 @@ void EntityMgr::Tick(float dt)
 
 }
 
-Entity381* EntityMgr::CreateEntity(std::string type, Ogre::Vector3 pos)
+void EntityMgr::CreateEntity(Ogre::SceneManager* mSceneMgr, std::string name, Ogre::Vector3 pos)
 {
+	if(name[0] == 'c')
+	{
+		Cube* cube = new Cube(mSceneMgr, name, pos);
+		entities.push_back((*cube));
+	}
+	else if(name[0] == 's')
+	{
 
+	}
 }

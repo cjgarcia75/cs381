@@ -13,7 +13,7 @@
 
 class Entity381{
 public:
-	Entity381(std::string type, std::string name, Ogre::Vector3 pos);
+	Entity381(Ogre::SceneManager* mSceneMgr, std::string name, Ogre::Vector3 pos);
 	virtual ~Entity381(void);
 	
 	void Tick(float dt);
@@ -22,7 +22,6 @@ public:
 	void setVelocity(Ogre::Vector3 vel);
 
 private:
-    std::string entityType;
     std::string entityName;
     Ogre::Vector3 position;
     Ogre::Vector3 velocity;

@@ -18,92 +18,56 @@ As2::~As2(void)
 }
 
 //-------------------------------------------------------------------------------------
-void As2::createCamera()
-{
-	mCamera = mSceneMgr->createCamera("PlayerCam");
-	mCamera->setPosition(initCamPos);
-	mCamera->lookAt(Ogre::Vector3(0, 900, 0));
-	mCamera->setNearClipDistance(5);
-
-	mCameraMan = new OgreBites::SdkCameraMan(mCamera);
-}
-
-void As2::createViewports()
-{
-	Ogre::Viewport* vp = mWindow->addViewport(mCamera);
-	vp->setBackgroundColour(Ogre::ColourValue(0, 0, 0));
-	mCamera->setAspectRatio(Ogre::Real(vp->getActualWidth()) / Ogre::Real(vp->getActualHeight()));
-}
-
 void As2::createScene(void)
 {
 	// create your scene here :)
-	int surfaceHeight = -100;
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
 
-	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.25, 0.25, 0.25));
+	mCamera->lookAt(Ogre::Vector3(0, 0, 0));
+
+	Ogre::Light* light = mSceneMgr->createLight("MainLight");
+	light->setPosition(20.0, 80.0, 50.0);
 
 	// light
-	Ogre::Light* pointLight = mSceneMgr->createLight("PointLight");
-	pointLight->setType(Ogre::Light::LT_POINT);
-	pointLight->setPosition(250, 150, 250);
-	pointLight->setDiffuseColour(Ogre::ColourValue::White);
-	pointLight->setSpecularColour(Ogre::ColourValue::White);
+//	Ogre::Light* pointLight = mSceneMgr->createLight("PointLight");
+//	pointLight->setType(Ogre::Light::LT_POINT);
+//	pointLight->setPosition(250, 150, 250);
+//	pointLight->setDiffuseColour(Ogre::ColourValue::White);
+//	pointLight->setSpecularColour(Ogre::ColourValue::White);
 
-	// cubes
-	int x = -900;
-	int y = 0;
+	// fixed point to see motion
+	Ogre::Entity* ogreEntityFixed = mSceneMgr->createEntity("robot.mesh");
+	Ogre::SceneNode* sceneNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(Ogre::Vector3(0, 100, -200));
+	sceneNode->attachObject(ogreEntityFixed);
+	sceneNode->showBoundingBox(true);
 
-	for(int i = 0; i < 100; i++)
-	{
-		cubeEnts[i] = mSceneMgr->createEntity("cube.mesh");
-
-		std::string temp = "CubeNode" + std::to_string(i);
-
-		cubes[i] = mSceneMgr->getRootSceneNode()->createChildSceneNode(temp.c_str());
-		cubes[i]->setPosition(x, y, 0);
-		cubes[i]->attachObject(cubeEnts[i]);
-		cubeEnts[i]->setMaterialName("Examples/Rockwall");
-
-		x += 200;
-		if(x > 900)
-			x = -900;
-
-		if(i > 0 && x == -900)
-			y += 200;
-	}
-
-	// ship
-	Ogre::Entity* shipEntity = mSceneMgr->createEntity("ship.mesh");
-	Ogre::SceneNode* shipNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("shipNode");
-	shipNode->setPosition(0, surfaceHeight, 0);
-	shipNode->yaw(Ogre::Degree(90));
-	shipNode->attachObject(shipEntity);
+	cameraNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+	cameraNode->setPosition(0, 200, 500);
+	cameraNode->attachObject(mCamera);
 
 	// water
-	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, 0);
-	Ogre::MeshManager::getSingleton().createPlane("ground",
-			Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
-			plane,
-			15000, 15000, 20, 20,
-			true,
-			1, 5, 5,
-			Ogre::Vector3::UNIT_Z);
-	Ogre::Entity* groundEntity = mSceneMgr->createEntity("ground");
-	Ogre::SceneNode* groundNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("GroundNode");
-	groundNode->attachObject(groundEntity);
-	groundNode->setPosition(0, surfaceHeight, 0);
-	groundEntity->setCastShadows(false);
-	groundEntity->setMaterialName("Ocean2_Cg");
+	MakeGround();
 
 	// sky box
-	mSceneMgr->setSkyBox(true, "Examples/MorningSkyBox");
+	MakeSky();
+
+	entityMgr = new EntityMgr(mSceneMgr);
+
 }
 
 bool As2::frameRenderingQueued(const Ogre::FrameEvent& fe)
 {
 	mKeyboard->capture();
+	if(mKeyboard->isKeyDown(OIS::KC_Q))
+		return false;
 
-	return(processUnbufferedInput(fe));
+	UpdateCamera(fe);
+
+	UpdateSelectedNode(fe);
+
+	entityMgr->Tick(fe.timeSinceLastFrame);
+
+	return(true);
 }
 
 bool As2::processUnbufferedInput(const Ogre::FrameEvent& fe)
@@ -116,7 +80,6 @@ bool As2::processUnbufferedInput(const Ogre::FrameEvent& fe)
 	static Ogre::Real shipRot = 0.008;
 	static Ogre::Real move = 2;
 	static Ogre::Real shipMove = 50;
-	static Ogre::Real moveCam = 300;
 	bool camMoving = true;
 
 	srand(time(NULL));
@@ -133,7 +96,6 @@ bool As2::processUnbufferedInput(const Ogre::FrameEvent& fe)
 	}
 
 	mouseDownLastFrame = leftMouseDown;
-	Ogre::Vector3 dirVec = Ogre::Vector3::ZERO;
 
 	// select cube
 	if(tabDown && !tabDownLastFrame)
@@ -201,25 +163,6 @@ bool As2::processUnbufferedInput(const Ogre::FrameEvent& fe)
 				dirVec * fe.timeSinceLastFrame,
 				Ogre::Node::TS_LOCAL);
 	}
-
-	// move camera forward
-	if(mKeyboard->isKeyDown(OIS::KC_W))
-		dirVec.z -= moveCam;
-	// move camera back
-	if(mKeyboard->isKeyDown(OIS::KC_S))
-		dirVec.z += moveCam;
-	// move camera up
-	if(mKeyboard->isKeyDown(OIS::KC_E))
-		dirVec.y += moveCam;
-	// move camera down
-	if(mKeyboard->isKeyDown(OIS::KC_F))
-		dirVec.y -= moveCam;
-	// move camera right
-	if(mKeyboard->isKeyDown(OIS::KC_D))
-		dirVec.x += moveCam;
-	// move camera left
-	if(mKeyboard->isKeyDown(OIS::KC_A))
-		dirVec.x -= moveCam;
 
 	// change camera
 	if(cDown && !cDownLastFrame)
@@ -289,9 +232,67 @@ bool As2::processUnbufferedInput(const Ogre::FrameEvent& fe)
 
 	cubes[selectedCube]->setPosition(oldPos + (velocity * fe.timeSinceLastFrame));
 
-	mCamera->moveRelative(dirVec * fe.timeSinceLastFrame);
-
 	return true;
+}
+
+void As2::MakeGround(void)
+{
+	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, surfaceHeight);
+
+	Ogre::MeshManager::getSingleton().createPlane(
+			"ground",
+			Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+			plane,
+			15000, 15000, 20, 20,
+			1, 5, 5,
+			Ogre::Vector3::UNIT_Z);
+
+	Ogre::Entity* groundEntity = mSceneMgr->createEntity("ground");
+	mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(groundEntity);
+	groundEntity->setCastShadows(false);
+	groundEntity->setMaterialName("Ocean2_Cg");
+}
+
+void As2::MakeSky(void)
+{
+	mSceneMgr->setSkyBox(true, "Examples/MorningSkyBox");
+}
+
+void As2::MakeEnts(void)
+{
+
+}
+
+void As2::UpdateCamera(const Ogre::FrameEvent& fe)
+{
+	static Ogre::Real moveCam = 300;
+	Ogre::Vector3 dirVec = Ogre::Vector3::ZERO;
+
+	// move camera forward
+	if(mKeyboard->isKeyDown(OIS::KC_W))
+		dirVec.z -= moveCam;
+	// move camera back
+	if(mKeyboard->isKeyDown(OIS::KC_S))
+		dirVec.z += moveCam;
+	// move camera up
+	if(mKeyboard->isKeyDown(OIS::KC_E))
+		dirVec.y += moveCam;
+	// move camera down
+	if(mKeyboard->isKeyDown(OIS::KC_F))
+		dirVec.y -= moveCam;
+	// move camera right
+	if(mKeyboard->isKeyDown(OIS::KC_D))
+		dirVec.x += moveCam;
+	// move camera left
+	if(mKeyboard->isKeyDown(OIS::KC_A))
+		dirVec.x -= moveCam;
+
+	cameraNode->translate(dirVec * fe.timeSinceLastFrame, Ogre::Node::TS_LOCAL);
+}
+
+void As2::UpdateSelectedNode(const Ogre::FrameEvent& fe)
+{
+
 }
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
