@@ -4,20 +4,9 @@
 -----------------------------------------------------------------------------
 Filename:    As2.cpp
 -----------------------------------------------------------------------------
-
-This source file is part of the
-   ___                 __    __ _ _    _
-  /___\__ _ _ __ ___  / / /\ \ (_) | _(_)
- //  // _` | '__/ _ \ \ \/  \/ / | |/ / |
-/ \_// (_| | | |  __/  \  /\  /| |   <| |
-\___/ \__, |_|  \___|   \/  \/ |_|_|\_\_|
-      |___/
-	  Tutorial Framework
-	  http://www.ogre3d.org/tikiwiki/
------------------------------------------------------------------------------
 */
 
-#include "../inc/As2.h"
+#include "As2.h"
 
 //-------------------------------------------------------------------------------------
 As2::As2(void)
@@ -124,7 +113,7 @@ bool As2::processUnbufferedInput(const Ogre::FrameEvent& fe)
 	static bool cDownLastFrame = false;
 	static bool vDownLastFrame = false;
 	static Ogre::Real rotate = 0.03;
-	static Ogre::Real shipRot = 0.05;
+	static Ogre::Real shipRot = 0.008;
 	static Ogre::Real move = 2;
 	static Ogre::Real shipMove = 50;
 	static Ogre::Real moveCam = 300;
@@ -201,10 +190,10 @@ bool As2::processUnbufferedInput(const Ogre::FrameEvent& fe)
 		// move ship back
 		if(mKeyboard->isKeyDown(OIS::KC_K) || mKeyboard->isKeyDown(OIS::KC_NUMPAD2))
 			dirVec.x -= shipMove;
-		// rotate ship left
+		// move ship left
 		if(mKeyboard->isKeyDown(OIS::KC_J) || mKeyboard->isKeyDown(OIS::KC_NUMPAD4))
 			mSceneMgr->getSceneNode("shipNode")->yaw(Ogre::Degree(5 * shipRot));
-		// rotate ship right
+		// move ship right
 		if(mKeyboard->isKeyDown(OIS::KC_L) || mKeyboard->isKeyDown(OIS::KC_NUMPAD6))
 			mSceneMgr->getSceneNode("shipNode")->yaw(Ogre::Degree(-5 * shipRot));
 
@@ -232,7 +221,7 @@ bool As2::processUnbufferedInput(const Ogre::FrameEvent& fe)
 	if(mKeyboard->isKeyDown(OIS::KC_A))
 		dirVec.x -= moveCam;
 
-	// change camera to cube
+	// change camera
 	if(cDown && !cDownLastFrame)
 	{
 		if(!tracking)
