@@ -1,6 +1,5 @@
-src/As2.o: ../src/As2.cpp \
- /home/christian/Desktop/cs381/eclipse-wokspace/As2/inc/As2.h \
- /home/christian/Desktop/cs381/eclipse-wokspace/As2/inc/BaseApplication.h \
+src/As2.o: ../src/As2.cpp /home/cjgarcia/Desktop/workspace/As2/inc/As2.h \
+ /home/cjgarcia/Desktop/workspace/As2/inc/BaseApplication.h \
  /usr/local/include/OGRE/OgreCamera.h \
  /usr/local/include/OGRE/OgrePrerequisites.h \
  /usr/local/include/OGRE/OgrePlatform.h \
@@ -233,14 +232,14 @@ src/As2.o: ../src/As2.cpp \
  /usr/include/ois/OISException.h /usr/include/ois/OISEffect.h \
  /usr/include/ois/OISForceFeedback.h \
  /usr/local/include/OGRE/SdkCameraMan.h \
- /home/christian/Desktop/cs381/eclipse-wokspace/As2/inc/EntityMgr.h \
- /home/christian/Desktop/cs381/eclipse-wokspace/As2/inc/Sphere.h \
- /home/christian/Desktop/cs381/eclipse-wokspace/As2/inc/Entity381.h \
- /home/christian/Desktop/cs381/eclipse-wokspace/As2/inc/Cube.h
+ /home/cjgarcia/Desktop/workspace/As2/inc/EntityMgr.h \
+ /home/cjgarcia/Desktop/workspace/As2/inc/Sphere.h \
+ /home/cjgarcia/Desktop/workspace/As2/inc/Entity381.h \
+ /home/cjgarcia/Desktop/workspace/As2/inc/Cube.h
 
-/home/christian/Desktop/cs381/eclipse-wokspace/As2/inc/As2.h:
+/home/cjgarcia/Desktop/workspace/As2/inc/As2.h:
 
-/home/christian/Desktop/cs381/eclipse-wokspace/As2/inc/BaseApplication.h:
+/home/cjgarcia/Desktop/workspace/As2/inc/BaseApplication.h:
 
 /usr/local/include/OGRE/OgreCamera.h:
 
@@ -734,10 +733,10 @@ src/As2.o: ../src/As2.cpp \
 
 /usr/local/include/OGRE/SdkCameraMan.h:
 
-/home/christian/Desktop/cs381/eclipse-wokspace/As2/inc/EntityMgr.h:
+/home/cjgarcia/Desktop/workspace/As2/inc/EntityMgr.h:
 
-/home/christian/Desktop/cs381/eclipse-wokspace/As2/inc/Sphere.h:
+/home/cjgarcia/Desktop/workspace/As2/inc/Sphere.h:
 
-/home/christian/Desktop/cs381/eclipse-wokspace/As2/inc/Entity381.h:
+/home/cjgarcia/Desktop/workspace/As2/inc/Entity381.h:
 
-/home/christian/Desktop/cs381/eclipse-wokspace/As2/inc/Cube.h:
+/home/cjgarcia/Desktop/workspace/As2/inc/Cube.h:

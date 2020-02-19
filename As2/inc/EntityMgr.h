@@ -22,6 +22,7 @@ public:
 	void CreateEntity(Ogre::SceneManager* mSceneMgr, std::string name, Ogre::Vector3 pos);
 	void SelectNextEnt();
 	void ChangeVelocity(Ogre::Vector3 vel);
+	Ogre::Vector3 getVelocity();
 
 private:
 	std::vector<Entity381> entities;

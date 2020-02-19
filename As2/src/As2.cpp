@@ -160,8 +160,8 @@ void As2::UpdateSelectedNode(const Ogre::FrameEvent& fe)
 
 	if(tabDown && !tabDownLastFrame)
 	{
-		velocity = Ogre::Vector3(0, 0, 0);
 		entityMgr->SelectNextEnt();
+		velocity = entityMgr->getVelocity();
 	}
 
 	tabDownLastFrame = tabDown;

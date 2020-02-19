@@ -12,6 +12,7 @@ Entity381::Entity381(Ogre::SceneManager* mSceneMgr, std::string name, Ogre::Vect
 {
 	entityName = name;
 	position = pos;
+	velocity = Ogre::Vector3(0, 0, 0);
 
 	ent = mSceneMgr->createEntity(name.c_str());
 	node = mSceneMgr->getRootSceneNode()->createChildSceneNode(pos);
@@ -23,6 +24,7 @@ Entity381::Entity381(Ogre::SceneManager* mSceneMgr, std::string name, Ogre::Vect
 
 	if(name[0] == 's')
 		ent->setMaterialName("Examples/Chrome");
+
 }
 
 Entity381::~Entity381()
@@ -41,6 +43,11 @@ void Entity381::Tick(float dt)
 void Entity381::setVelocity(Ogre::Vector3 vel)
 {
 	velocity = vel;
+}
+
+Ogre::Vector3 Entity381::getVelocity()
+{
+	return velocity;
 }
 
 void Entity381::ChangeShowBox()

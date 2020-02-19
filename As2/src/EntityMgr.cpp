@@ -61,3 +61,8 @@ void EntityMgr::ChangeVelocity(Ogre::Vector3 vel)
 {
 	entities[selectedEntity].setVelocity(vel);
 }
+
+Ogre::Vector3 EntityMgr::getVelocity()
+{
+	return(entities[selectedEntity].getVelocity());
+}

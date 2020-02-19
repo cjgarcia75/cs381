@@ -19,6 +19,7 @@ public:
 	void Tick(float dt);
 
 	void setVelocity(Ogre::Vector3 vel);
+	Ogre::Vector3 getVelocity();
 	void ChangeShowBox();
 
 private:
