@@ -53,6 +53,7 @@ void As2::createScene(void)
 
 	entityMgr = new EntityMgr(mSceneMgr);
 
+	MakeEnts();
 }
 
 bool As2::frameRenderingQueued(const Ogre::FrameEvent& fe)
@@ -70,171 +71,6 @@ bool As2::frameRenderingQueued(const Ogre::FrameEvent& fe)
 	return(true);
 }
 
-bool As2::processUnbufferedInput(const Ogre::FrameEvent& fe)
-{
-	static bool mouseDownLastFrame = false;
-	static bool tabDownLastFrame = false;
-	static bool cDownLastFrame = false;
-	static bool vDownLastFrame = false;
-	static Ogre::Real rotate = 0.03;
-	static Ogre::Real shipRot = 0.008;
-	static Ogre::Real move = 2;
-	static Ogre::Real shipMove = 50;
-	bool camMoving = true;
-
-	srand(time(NULL));
-
-	bool leftMouseDown = mMouse->getMouseState().buttonDown(OIS::MB_Left);
-	bool tabDown = mKeyboard->isKeyDown(OIS::KC_TAB);
-	bool cDown = mKeyboard->isKeyDown(OIS::KC_C);
-	bool vDown = mKeyboard->isKeyDown(OIS::KC_V);
-
-	if(leftMouseDown && !mouseDownLastFrame)
-	{
-		Ogre::Light* light = mSceneMgr->getLight("PointLight"); // @suppress("Invalid arguments")
-		light->setVisible(!light->isVisible());
-	}
-
-	mouseDownLastFrame = leftMouseDown;
-
-	// select cube
-	if(tabDown && !tabDownLastFrame)
-	{
-		selectedCube++;
-		if(selectedCube == 100)
-		{
-			cubes[99]->showBoundingBox(false);
-			selectedCube = 0;
-		}
-
-		if(selectedCube > 0)
-			cubes[selectedCube - 1]->showBoundingBox(false);
-	}
-	tabDownLastFrame = tabDown;
-
-	cubes[selectedCube]->showBoundingBox(true);
-
-	Ogre::Vector3 oldPos = cubes[selectedCube]->getPosition();
-
-	if(!controlShip)
-	{
-		// stop cube
-		if(mKeyboard->isKeyDown(OIS::KC_SPACE))
-		{
-			velocity.x = 0;
-			velocity.y = 0;
-			velocity.z = 0;
-		}
-		// move cube forward
-		if(mKeyboard->isKeyDown(OIS::KC_I) || mKeyboard->isKeyDown(OIS::KC_NUMPAD8))
-			velocity.z -= move;
-		// move cube back
-		if(mKeyboard->isKeyDown(OIS::KC_K) || mKeyboard->isKeyDown(OIS::KC_NUMPAD2))
-			velocity.z += move;
-		// move cube down
-		if(mKeyboard->isKeyDown(OIS::KC_U) || mKeyboard->isKeyDown(OIS::KC_PGDOWN))
-			velocity.y -= move;
-		// move cube up
-		if(mKeyboard->isKeyDown(OIS::KC_O) || mKeyboard->isKeyDown(OIS::KC_PGUP))
-			velocity.y += move;
-		// move cube left
-		if(mKeyboard->isKeyDown(OIS::KC_J) || mKeyboard->isKeyDown(OIS::KC_NUMPAD4))
-			velocity.x -= move;
-		// move cube right
-		if(mKeyboard->isKeyDown(OIS::KC_L) || mKeyboard->isKeyDown(OIS::KC_NUMPAD6))
-			velocity.x += move;
-	}
-	else
-	{
-		// move ship forward
-		if(mKeyboard->isKeyDown(OIS::KC_I) || mKeyboard->isKeyDown(OIS::KC_NUMPAD8))
-			dirVec.x += shipMove;
-		// move ship back
-		if(mKeyboard->isKeyDown(OIS::KC_K) || mKeyboard->isKeyDown(OIS::KC_NUMPAD2))
-			dirVec.x -= shipMove;
-		// move ship left
-		if(mKeyboard->isKeyDown(OIS::KC_J) || mKeyboard->isKeyDown(OIS::KC_NUMPAD4))
-			mSceneMgr->getSceneNode("shipNode")->yaw(Ogre::Degree(5 * shipRot));
-		// move ship right
-		if(mKeyboard->isKeyDown(OIS::KC_L) || mKeyboard->isKeyDown(OIS::KC_NUMPAD6))
-			mSceneMgr->getSceneNode("shipNode")->yaw(Ogre::Degree(-5 * shipRot));
-
-		mSceneMgr->getSceneNode("shipNode")->translate(
-				dirVec * fe.timeSinceLastFrame,
-				Ogre::Node::TS_LOCAL);
-	}
-
-	// change camera
-	if(cDown && !cDownLastFrame)
-	{
-		if(!tracking)
-			tracking = true;
-		else
-		{
-			tracking = false;
-			camMoving = false;
-		}
-	}
-
-	cDownLastFrame = cDown;
-
-	if(tracking)
-	{
-		Ogre::Vector3 cubePos = cubes[selectedCube]->getPosition();
-		mCamera->setPosition(cubePos + Ogre::Vector3(0, 100, 500));
-		mCamera->lookAt(cubePos);
-	}
-	else if(!tracking && mCamera->getPosition() != initCamPos && !camMoving)
-	{
-		mCamera->setPosition(initCamPos);
-		mCamera->lookAt(Ogre::Vector3(0, 900, 0));
-		camMoving = true;
-	}
-
-	// follow ship
-	if(vDown && !vDownLastFrame)
-	{
-		if(!trackShip)
-		{
-			trackShip = true;
-			controlShip = true;
-		}
-		else
-		{
-			trackShip = false;
-			controlShip = false;
-			camMoving = false;
-		}
-	}
-
-	vDownLastFrame = vDown;
-
-	if(trackShip)
-	{
-		Ogre::Vector3 shipPos = mSceneMgr->getSceneNode("shipNode")->getPosition();
-		mCamera->setPosition(shipPos + Ogre::Vector3(0, 10, 30));
-		mCamera->lookAt(shipPos);
-	}
-	else if(!trackShip && mCamera->getPosition() != initCamPos && !camMoving)
-	{
-		mCamera->setPosition(initCamPos);
-		mCamera->lookAt(Ogre::Vector3(0, 900, 0));
-		camMoving = true;
-	}
-
-	// quit
-	if(mKeyboard->isKeyDown(OIS::KC_Q))
-		return false;
-
-	cubes[selectedCube]->yaw(Ogre::Degree((rand() % 5 + 1) * rotate * posNeg[rand() % 2]));
-	cubes[selectedCube]->pitch(Ogre::Degree((rand() % 5 + 1) * rotate * posNeg[rand() % 2]));
-	cubes[selectedCube]->roll(Ogre::Degree((rand() % 5 + 1) * rotate * posNeg[rand() % 2]));
-
-	cubes[selectedCube]->setPosition(oldPos + (velocity * fe.timeSinceLastFrame));
-
-	return true;
-}
-
 void As2::MakeGround(void)
 {
 	Ogre::Plane plane(Ogre::Vector3::UNIT_Y, surfaceHeight);
@@ -244,6 +80,7 @@ void As2::MakeGround(void)
 			Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
 			plane,
 			15000, 15000, 20, 20,
+			true,
 			1, 5, 5,
 			Ogre::Vector3::UNIT_Z);
 
@@ -260,7 +97,26 @@ void As2::MakeSky(void)
 
 void As2::MakeEnts(void)
 {
+	std::string cubeFile = "cube.mesh";
+	std::string sphereFile = "sphere.mesh";
+	Ogre::Vector3 pos = Ogre::Vector3(0, 0, -300);
 
+	for(int i = 0; i < 5; i++)
+	{
+		entityMgr->CreateEntity(mSceneMgr, cubeFile, pos);
+
+		pos.x += 200;
+	}
+
+	pos.x = 0;
+	pos.z -= 200;
+
+	for(int i = 0; i < 5; i++)
+	{
+		entityMgr->CreateEntity(mSceneMgr, sphereFile, pos);
+
+		pos.x += 200;
+	}
 }
 
 void As2::UpdateCamera(const Ogre::FrameEvent& fe)
@@ -287,12 +143,51 @@ void As2::UpdateCamera(const Ogre::FrameEvent& fe)
 	if(mKeyboard->isKeyDown(OIS::KC_A))
 		dirVec.x -= moveCam;
 
+	if(mKeyboard->isKeyDown(OIS::KC_LSHIFT) && mKeyboard->isKeyDown(OIS::KC_A))
+		cameraNode->yaw(Ogre::Degree(0.05));
+	if(mKeyboard->isKeyDown(OIS::KC_LSHIFT) && mKeyboard->isKeyDown(OIS::KC_D))
+		cameraNode->yaw(Ogre::Degree(-0.05));
+
 	cameraNode->translate(dirVec * fe.timeSinceLastFrame, Ogre::Node::TS_LOCAL);
 }
 
 void As2::UpdateSelectedNode(const Ogre::FrameEvent& fe)
 {
+	static Ogre::Real move = 1;
 
+	static bool tabDownLastFrame = false;
+	bool tabDown = mKeyboard->isKeyDown(OIS::KC_TAB);
+
+	if(tabDown && !tabDownLastFrame)
+	{
+		velocity = Ogre::Vector3(0, 0, 0);
+		entityMgr->SelectNextEnt();
+	}
+
+	tabDownLastFrame = tabDown;
+
+	if(mKeyboard->isKeyDown(OIS::KC_SPACE))
+		velocity = Ogre::Vector3(0, 0, 0);
+	// move cube forward
+	if(mKeyboard->isKeyDown(OIS::KC_I) || mKeyboard->isKeyDown(OIS::KC_NUMPAD8))
+		velocity.z -= move;
+	// move cube back
+	if(mKeyboard->isKeyDown(OIS::KC_K) || mKeyboard->isKeyDown(OIS::KC_NUMPAD2))
+		velocity.z += move;
+	// move cube down
+	if(mKeyboard->isKeyDown(OIS::KC_U) || mKeyboard->isKeyDown(OIS::KC_PGDOWN))
+		velocity.y -= move;
+	// move cube up
+	if(mKeyboard->isKeyDown(OIS::KC_O) || mKeyboard->isKeyDown(OIS::KC_PGUP))
+		velocity.y += move;
+	// move cube left
+	if(mKeyboard->isKeyDown(OIS::KC_J) || mKeyboard->isKeyDown(OIS::KC_NUMPAD4))
+		velocity.x -= move;
+	// move cube right
+	if(mKeyboard->isKeyDown(OIS::KC_L) || mKeyboard->isKeyDown(OIS::KC_NUMPAD6))
+		velocity.x += move;
+
+	entityMgr->ChangeVelocity(velocity);
 }
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE

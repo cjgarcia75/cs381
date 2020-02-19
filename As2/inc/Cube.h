@@ -1,9 +1,10 @@
 /*
- * Cube.h
- *
- *  Created on: Feb 18, 2020
- *      Author: cjgarcia
- */
+ * Christian Garcia
+ * cj_garcia@sbcglobal.net
+-----------------------------------------------------------------------------
+Filename:    Cube.h
+-----------------------------------------------------------------------------
+*/
 
 #ifndef INC_CUBE_H_
 #define INC_CUBE_H_

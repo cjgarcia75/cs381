@@ -17,6 +17,12 @@ Entity381::Entity381(Ogre::SceneManager* mSceneMgr, std::string name, Ogre::Vect
 	node = mSceneMgr->getRootSceneNode()->createChildSceneNode(pos);
 	node->attachObject(ent);
 	node->showBoundingBox(false);
+
+	if(name[0] == 'c')
+		ent->setMaterialName("Examples/Rockwall");
+
+	if(name[0] == 's')
+		ent->setMaterialName("Examples/Chrome");
 }
 
 Entity381::~Entity381()
@@ -26,14 +32,21 @@ Entity381::~Entity381()
 
 void Entity381::Tick(float dt)
 {
+	position += velocity * dt;
+	node->setPosition(position);
 
+	node->yaw(Ogre::Degree(0.03));
 }
 
-void Entity381::setPosition(Ogre::Vector3 pos)
-{
-	position = pos;
-}
 void Entity381::setVelocity(Ogre::Vector3 vel)
 {
 	velocity = vel;
+}
+
+void Entity381::ChangeShowBox()
+{
+	if(node->getShowBoundingBox())
+		node->showBoundingBox(false);
+	else
+		node->showBoundingBox(true);
 }

@@ -18,13 +18,14 @@ public:
 	
 	void Tick(float dt);
 
-	void setPosition(Ogre::Vector3 pos);
 	void setVelocity(Ogre::Vector3 vel);
+	void ChangeShowBox();
 
 private:
     std::string entityName;
     Ogre::Vector3 position;
     Ogre::Vector3 velocity;
+
     Ogre::Entity* ent;
     Ogre::SceneNode* node;
 

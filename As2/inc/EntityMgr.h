@@ -20,11 +20,12 @@ public:
 
 	void Tick(float dt);
 	void CreateEntity(Ogre::SceneManager* mSceneMgr, std::string name, Ogre::Vector3 pos);
+	void SelectNextEnt();
+	void ChangeVelocity(Ogre::Vector3 vel);
 
 private:
 	std::vector<Entity381> entities;
-	int selectedEntity;
-
+	unsigned int selectedEntity;
 };
 
 #endif /* ENTITYMGR_H_ */

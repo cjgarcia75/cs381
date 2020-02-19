@@ -20,6 +20,7 @@ This source file is part of the
 #define __As2_h_
 
 #include "BaseApplication.h"
+#include "EntityMgr.h"
 #include <string>
 #include <stdlib.h>
 #include <time.h>
@@ -38,13 +39,13 @@ protected:
 	void MakeEnts(void);
 
 private:
-	bool processUnbufferedInput(const Ogre::FrameEvent& fe);
 	void UpdateCamera(const Ogre::FrameEvent& fe);
 	void UpdateSelectedNode(const Ogre::FrameEvent& fe);
 
 	int surfaceHeight = 0;
 	EntityMgr* entityMgr;
 	Ogre::SceneNode* cameraNode;
+	Ogre::Vector3 velocity = Ogre::Vector3::ZERO;
 
 };
 

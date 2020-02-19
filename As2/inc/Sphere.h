@@ -1,9 +1,10 @@
 /*
- * Sphere.h
- *
- *  Created on: Feb 18, 2020
- *      Author: cjgarcia
- */
+ * Christian Garcia
+ * cj_garcia@sbcglobal.net
+-----------------------------------------------------------------------------
+Filename:    Sphere.h
+-----------------------------------------------------------------------------
+*/
 
 #ifndef INC_SPHERE_H_
 #define INC_SPHERE_H_
