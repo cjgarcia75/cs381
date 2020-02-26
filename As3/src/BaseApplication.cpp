@@ -110,6 +110,10 @@ void BaseApplication::createFrameListener(void)
 	OIS::ParamList pl;
 	size_t windowHnd = 0;
 	std::ostringstream windowHndStr;
+	pl.insert(std::make_pair(std::string("x11_mouse_grab"), std::string("false")));
+	pl.insert(std::make_pair(std::string("x11_mouse_hide"), std::string("false")));
+	pl.insert(std::make_pair(std::string("x11_keyboard_grab"), std::string("false")));
+	pl.insert(std::make_pair(std::string("XAutoRepeatOn"), std::string("true")));
 
 	mWindow->getCustomAttribute("WINDOW", &windowHnd);
 	windowHndStr << windowHnd;

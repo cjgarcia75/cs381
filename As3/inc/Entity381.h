@@ -32,10 +32,10 @@ public:
 	std::string entityName;
     float minSpeed = 0,
 		  maxSpeed,
-		  speed,
-		  heading,
-		  desiredSpeed,
-		  desiredHeading,
+		  speed = 0,
+		  heading = 0,
+		  desiredSpeed = 0,
+		  desiredHeading = 0,
 		  acceleration,
 		  turningRate;
 

@@ -200,7 +200,7 @@ void As3::UpdateSelectedNode(const Ogre::FrameEvent& fe)
 
 	entityMgr->ChangeSpeed(speed);
 	entityMgr->ChangeHeading(heading);
-//	std::cout << speed << "\n" << heading << "\n";
+//	std::cout << "As3 dSpeed: " << speed << "\n" << "As3 dHeading: " << heading << "\n";
 }
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_APPLE

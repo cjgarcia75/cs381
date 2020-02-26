@@ -38,8 +38,10 @@ void Entity381::Tick(float dt)
 	for(unsigned int i = 0; i < aspects.size(); i++)
 	{
 		aspects[i]->Tick(dt);
+//		std::cout << "Entity tick: " << aspects[i]->entity << "\n";
 	}
-//	std::cout << speed << "\n" << desiredSpeed << "\n";
+//	std::cout << speed << "\n" << heading << "\n";
+//	std::cout<< "Entity381 dSpeed: " << desiredSpeed << "\nEntity381 dHeading: " << desiredHeading << "\n";
 }
 
 void Entity381::setVelocity(Ogre::Vector3 vel)
@@ -77,15 +79,10 @@ void Entity381::ChangeShowBox()
 
 ////////////////////////////////////////////////////
 
-Destroyer::Destroyer(Ogre::SceneManager* mSceneMgr, int id, std::string name, Ogre::Vector3 pos) : Entity381{mSceneMgr, id, name, pos}
+Destroyer::Destroyer(Ogre::SceneManager* mSceneMgr, int id, std::string name, Ogre::Vector3 pos) : Entity381(mSceneMgr, id, name, pos)
 {
 	entityName = "Destroyer" + std::to_string(id);
-	minSpeed = 0;
 	maxSpeed = 10;
-	speed = 0;
-	heading = 0;
-	desiredSpeed = 0;
-	desiredHeading = 0;
 	acceleration = 2;
 	turningRate = 2;
 }
@@ -97,15 +94,10 @@ Destroyer::~Destroyer()
 
 ////////////////////////////////////////////////////
 
-Carrier::Carrier(Ogre::SceneManager* mSceneMgr, int id, std::string name, Ogre::Vector3 pos) : Entity381{mSceneMgr, id, name, pos}
+Carrier::Carrier(Ogre::SceneManager* mSceneMgr, int id, std::string name, Ogre::Vector3 pos) : Entity381(mSceneMgr, id, name, pos)
 {
 	entityName = "Carrier" + std::to_string(id);
-	minSpeed = 0;
 	maxSpeed = 20;
-	speed = 0;
-	heading = 0;
-	desiredSpeed = 0;
-	desiredHeading = 0;
 	acceleration = 2;
 	turningRate = 2;
 }
@@ -117,15 +109,10 @@ Carrier::~Carrier()
 
 ////////////////////////////////////////////////////
 
-Speedboat::Speedboat(Ogre::SceneManager* mSceneMgr, int id, std::string name, Ogre::Vector3 pos) : Entity381{mSceneMgr, id, name, pos}
+Speedboat::Speedboat(Ogre::SceneManager* mSceneMgr, int id, std::string name, Ogre::Vector3 pos) : Entity381(mSceneMgr, id, name, pos)
 {
 	entityName = "Speedboat" + std::to_string(id);
-	minSpeed = 0;
 	maxSpeed = 15;
-	speed = 0;
-	heading = 0;
-	desiredSpeed = 0;
-	desiredHeading = 0;
 	acceleration = 3;
 	turningRate = 3;
 }
@@ -137,15 +124,10 @@ Speedboat::~Speedboat()
 
 ////////////////////////////////////////////////////
 
-Frigate::Frigate(Ogre::SceneManager* mSceneMgr, int id, std::string name, Ogre::Vector3 pos) : Entity381{mSceneMgr, id, name, pos}
+Frigate::Frigate(Ogre::SceneManager* mSceneMgr, int id, std::string name, Ogre::Vector3 pos) : Entity381(mSceneMgr, id, name, pos)
 {
 	entityName = "Frigate" + std::to_string(id);
-	minSpeed = 0;
 	maxSpeed = 12;
-	speed = 0;
-	heading = 0;
-	desiredSpeed = 0;
-	desiredHeading = 0;
 	acceleration = 2;
 	turningRate = 2;
 }
@@ -157,15 +139,10 @@ Frigate::~Frigate()
 
 ////////////////////////////////////////////////////
 
-Alien::Alien(Ogre::SceneManager* mSceneMgr, int id, std::string name, Ogre::Vector3 pos) : Entity381{mSceneMgr, id, name, pos}
+Alien::Alien(Ogre::SceneManager* mSceneMgr, int id, std::string name, Ogre::Vector3 pos) : Entity381(mSceneMgr, id, name, pos)
 {
 	entityName = "Alien" + std::to_string(id);
-	minSpeed = 0;
 	maxSpeed = 30;
-	speed = 0;
-	heading = 0;
-	desiredSpeed = 0;
-	desiredHeading = 0;
 	acceleration = 6;
 	turningRate = 6;
 }

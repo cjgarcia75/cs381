@@ -72,13 +72,15 @@ void EntityMgr::SelectNextEnt()
 void EntityMgr::ChangeSpeed(float s)
 {
 	entities[selectedEntity].desiredSpeed = s;
-//	std::cout << entities[selectedEntity].desiredSpeed << "\n";
+//	std::cout << s << "\n";
+//	std::cout << "EntityMgr dSpeed: " << entities[selectedEntity].desiredSpeed << "\n";
 }
 
 void EntityMgr::ChangeHeading(float h)
 {
 	entities[selectedEntity].desiredHeading = h;
 //	std::cout << h << "\n";
+//	std::cout << "EntityMgr dHeading: " << entities[selectedEntity].desiredHeading << "\n";
 }
 
 float EntityMgr::getSpeed()

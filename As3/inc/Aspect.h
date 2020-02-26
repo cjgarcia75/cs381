@@ -30,19 +30,18 @@ public:
 	AspectType aspectType;
 };
 
-class Renderer: public Aspect {
-public:
-	Renderer(Entity381* ent);
-	~Renderer();
-	virtual void Tick(float dt);
-};
-
-
 class Physics: public Aspect {
 public:
 	Physics(Entity381* ent);
 	~Physics();
-	virtual void Tick(float dt);
+	void Tick(float dt);
+};
+
+class Renderer: public Aspect {
+public:
+	Renderer(Entity381* ent);
+	~Renderer();
+	void Tick(float dt);
 };
 
 #endif /* INC_ASPECT_H_ */
