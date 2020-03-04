@@ -15,14 +15,14 @@ EntityMgr::EntityMgr(Ogre::SceneManager* mSceneMgr)
 
 EntityMgr::~EntityMgr(void)
 {
-
 }
 
 void EntityMgr::Tick(float dt)
 {
 	for(unsigned int i = 0; i < entities.size(); i++)
 	{
-		entities[i].Tick(dt);
+		entities[i]->Tick(dt);
+//		std::cout << "EntityMgr tick entity address: " << &(entities[i]) << "\n";
 	}
 }
 
@@ -51,49 +51,51 @@ void EntityMgr::CreateEntity(Ogre::SceneManager* mSceneMgr, int id, std::string 
 		temp = new Alien(mSceneMgr, id, name, pos);
 	}
 
+//	std::cout << temp->heading
+
 	if(entities.size() == 0)
 		temp->ChangeShowBox();
 
-	entities.push_back((*temp));
+	entities.push_back((temp));
 }
 
 void EntityMgr::SelectNextEnt()
 {
-	entities[selectedEntity].ChangeShowBox();
+	entities[selectedEntity]->ChangeShowBox();
 
 	selectedEntity++;
 
 	if(selectedEntity == entities.size())
 		selectedEntity = 0;
 
-	entities[selectedEntity].ChangeShowBox();
+	entities[selectedEntity]->ChangeShowBox();
 }
 
 void EntityMgr::ChangeSpeed(float s)
 {
-	entities[selectedEntity].desiredSpeed = s;
+	entities[selectedEntity]->desiredSpeed = s;
 //	std::cout << s << "\n";
 //	std::cout << "EntityMgr dSpeed: " << entities[selectedEntity].desiredSpeed << "\n";
 }
 
 void EntityMgr::ChangeHeading(float h)
 {
-	entities[selectedEntity].desiredHeading = h;
+	entities[selectedEntity]->desiredHeading = h;
 //	std::cout << h << "\n";
 //	std::cout << "EntityMgr dHeading: " << entities[selectedEntity].desiredHeading << "\n";
 }
 
 float EntityMgr::getSpeed()
 {
-	return(entities[selectedEntity].speed);
+	return(entities[selectedEntity]->speed);
 }
 
 float EntityMgr::getHeading()
 {
-	return(entities[selectedEntity].heading);
+	return(entities[selectedEntity]->heading);
 }
 
 float EntityMgr::getMaxSpeed()
 {
-	return(entities[selectedEntity].maxSpeed);
+	return(entities[selectedEntity]->maxSpeed);
 }

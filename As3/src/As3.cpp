@@ -153,7 +153,7 @@ void As3::UpdateCamera(const Ogre::FrameEvent& fe)
 void As3::UpdateSelectedNode(const Ogre::FrameEvent& fe)
 {
 	static float move = 1;
-	static float rot = 2;
+	static float rot = 0.001;
 
 	static bool tabDownLastFrame = false;
 	bool tabDown = mKeyboard->isKeyDown(OIS::KC_TAB);
@@ -187,7 +187,7 @@ void As3::UpdateSelectedNode(const Ogre::FrameEvent& fe)
 	{
 		heading -= rot;
 		if(heading < 0)
-			heading = 360;
+			heading += 360;
 	}
 
 	// turn right
@@ -195,7 +195,7 @@ void As3::UpdateSelectedNode(const Ogre::FrameEvent& fe)
 	{
 		heading += rot;
 		if(heading > 360)
-			heading = 0;
+			heading -= 360;
 	}
 
 	entityMgr->ChangeSpeed(speed);

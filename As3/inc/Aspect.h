@@ -25,8 +25,9 @@ public:
 	Aspect(Entity381* ent);
 	virtual ~Aspect();
 
-	virtual void Tick(float dt) = 0;
-	Entity381 *entity;
+	virtual void Tick(float dt);
+
+	Entity381* entity;
 	AspectType aspectType;
 };
 

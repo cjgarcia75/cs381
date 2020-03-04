@@ -15,7 +15,7 @@ Filename:    EntityMgr.h
 class EntityMgr{
 public:
 	EntityMgr(Ogre::SceneManager* mSceneMgr);
-	virtual ~EntityMgr(void);
+	~EntityMgr(void);
 
 	void Tick(float dt);
 	void CreateEntity(Ogre::SceneManager* mSceneMgr, int id, std::string name, Ogre::Vector3 pos);
@@ -27,7 +27,7 @@ public:
 	float getMaxSpeed();
 
 private:
-	std::vector<Entity381> entities;
+	std::vector<Entity381*> entities;
 	unsigned int selectedEntity;
 };
 

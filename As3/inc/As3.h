@@ -18,7 +18,7 @@ class As3 : public BaseApplication
 {
 public:
 	As3(void);
-	virtual ~As3(void);
+	~As3(void);
 
 protected:
 	virtual void createScene(void);

@@ -26,18 +26,21 @@ public:
 	void setPosition(Ogre::Vector3 pos);
 	Ogre::Vector3 getVelocity();
 	Ogre::Vector3 getPosition();
+	float getDesiredSpeed();
+
 	Ogre::SceneNode* getNode();
 	void ChangeShowBox();
 
 	std::string entityName;
     float minSpeed = 0,
 		  maxSpeed,
-		  speed = 0,
-		  heading = 0,
-		  desiredSpeed = 0,
-		  desiredHeading = 0,
+		  speed,
+		  heading,
+		  desiredSpeed,
+		  desiredHeading,
 		  acceleration,
-		  turningRate;
+		  turningRate,
+		  rotation;
 
 private:
     std::string fileName;
